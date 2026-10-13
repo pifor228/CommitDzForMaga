@@ -3,5 +3,4 @@ from .models import Card
 
 @admin.register(Card)
 class CardAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user')
-
+    list_display = ('id', 'title')

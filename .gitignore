@@ -6,3 +6,10 @@ node_modules/
 __pycache__/
 *.sqlite3
 .DS_Store
+.env
+.env.local
+.vscode/
+.idea/
+Thumbs.db
+.sqlite3
+react/node_modules/
