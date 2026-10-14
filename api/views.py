@@ -10,7 +10,7 @@ from api import serializers
 class CardItemDeleteView(APIView): 
     def delete(self, request, pk):
         try:
-            item = Card.objects.get(pk=pk, user=request.user)
+            item = Card.objects.get(pk=pk)
             item.delete()
             return Response({"message": "Удаленно"}, status=status.HTTP_204_NO_CONTENT)
         except Card.DoesNotExist:
