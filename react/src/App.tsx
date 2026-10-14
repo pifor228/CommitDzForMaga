@@ -1,10 +1,9 @@
 import './App.css'
-import styles from './App.module.css' 
-import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './Components/Login';
 import Dashboard from './Components/Dashboard';
 import Navbar from './Components/Navbar';
+import NotFound from './Components/NotFound';
 function App() {
 
   return (
@@ -13,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard/>} />
         <Route path="/Login" element={<Login/>} />
+        <Route path="*" element={<NotFound/>} />
       </Routes>
     </Router>
   )
