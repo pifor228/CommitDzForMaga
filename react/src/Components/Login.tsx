@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+﻿import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 
 export default function Login() {
@@ -6,21 +7,25 @@ export default function Login() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
         setError('');
-        setIsLoggedIn(false);
         setIsLoading(true);
 
         try {
             const response = await api.post('token/', { username, password });
-            if (typeof response.data.access !== 'string') {
-                throw new Error('Сервер не вернул токен доступа');
+            const accessToken = response.data.access;
+            const refreshToken = response.data.refresh;
+
+            if (typeof accessToken !== 'string' || typeof refreshToken !== 'string') {
+                throw new Error('Сервер не вернул токены');
             }
-            localStorage.setItem('token', response.data.access);
-            setIsLoggedIn(true);
+
+            localStorage.setItem('token', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+            navigate('/');
         } catch {
             setError('Ошибка входа. Проверьте логин и пароль.');
         } finally {
@@ -60,7 +65,6 @@ export default function Login() {
                     {isLoading ? 'Входим...' : 'Войти'}
                 </button>
                 {error && <p role="alert">{error}</p>}
-                {isLoggedIn && <p role="status">Вы успешно вошли.</p>}
             </form>
         </div>
     );
